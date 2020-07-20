@@ -1,0 +1,55 @@
+<body>
+    <div><b>Daily Close:</b> <span id="daily"></span> </div>
+    <div><b>Weekly Close:</b> <span id="weekly"></span> </div>
+    <div><b>Monthly Close:</b> <span id="monthly"></span> </div>
+
+</body>
+	<script>
+
+//Get number of seconds until month closes in UTC time.
+var utcNow = moment().unix();
+//Daily
+var dailyClose = moment().endOf("day").unix();
+dailyCloseSeconds = dailyClose - utcNow;
+//Monthly
+var monthlyClose = moment().endOf("month").unix();
+monthlyCloseSeconds = monthlyClose - utcNow;
+//Weekly
+var weeklyClose = moment().endOf("week").unix();
+weeklyCloseSeconds = weeklyClose - utcNow;
+
+
+//Countodnw to daily close.
+var dailyDisplay = document.querySelector('#daily'),
+  dailyTimer = new CountDownTimer(dailyCloseSeconds);
+dailyTimer.onTick(dailyFormat).start();
+
+function dailyFormat(days, hours, minutes, seconds) {
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  dailyDisplay.textContent = hours + 'H ' + minutes + 'm ' + seconds + 's';
+}
+
+//Countodnw to weekly close.
+var weeklyDisplay = document.querySelector('#weekly'),
+  weeklyTimer = new CountDownTimer(weeklyCloseSeconds);
+weeklyTimer.onTick(weeklyFormat).start();
+
+function weeklyFormat(days, hours, minutes, seconds) {
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  weeklyDisplay.textContent = days + 'D ' + hours + 'H ' + minutes + 'm ';
+}
+
+//Countodnw to monthly close.
+var monthlyDisplay = document.querySelector('#monthly'),
+  monthlyTimer = new CountDownTimer(monthlyCloseSeconds);
+monthlyTimer.onTick(monthlyFormat).start();
+
+function monthlyFormat(days, hours, minutes, seconds) {
+  minutes = minutes < 10 ? "0" + minutes : minutes;
+  seconds = seconds < 10 ? "0" + seconds : seconds;
+  monthlyDisplay.textContent = days + 'D ' + hours + 'H ' + minutes + 'm ';
+}
+
+	</script>
